@@ -392,28 +392,28 @@ void loop() {
   send_feature_packets(tcp_sock, (char*)feature_buffer + kFeatureElementCount/2, kFeatureElementCount/2);
 
   // Run the model on the spectrogram input and make sure it succeeds.
-  TfLiteStatus invoke_status = interpreter->Invoke();
-  if (invoke_status != kTfLiteOk) {
-    TF_LITE_REPORT_ERROR(error_reporter, "Invoke failed");
-    return;
-  }
+  // TfLiteStatus invoke_status = interpreter->Invoke();
+  // if (invoke_status != kTfLiteOk) {
+  //   TF_LITE_REPORT_ERROR(error_reporter, "Invoke failed");
+  //   return;
+  // }
 
-  // Obtain a pointer to the output tensor
-  TfLiteTensor* output = interpreter->output(0);
-  // Determine whether a command was recognized based on the output of inference
-  const char* found_command = nullptr;
-  uint8_t score = 0;
-  bool is_new_command = false;
-  TfLiteStatus process_status = recognizer->ProcessLatestResults(
-      output, current_time, &found_command, &score, &is_new_command);
-  if (process_status != kTfLiteOk) {
-    TF_LITE_REPORT_ERROR(error_reporter,
-                         "RecognizeCommands::ProcessLatestResults() failed");
-    return;
-  }
-  // Do something based on the recognized command. The default implementation
-  // just prints to the error console, but you should replace this with your
-  // own function for a real application.
-  RespondToCommand(error_reporter, current_time, found_command, score,
-                   is_new_command);
+  // // Obtain a pointer to the output tensor
+  // TfLiteTensor* output = interpreter->output(0);
+  // // Determine whether a command was recognized based on the output of inference
+  // const char* found_command = nullptr;
+  // uint8_t score = 0;
+  // bool is_new_command = false;
+  // TfLiteStatus process_status = recognizer->ProcessLatestResults(
+  //     output, current_time, &found_command, &score, &is_new_command);
+  // if (process_status != kTfLiteOk) {
+  //   TF_LITE_REPORT_ERROR(error_reporter,
+  //                        "RecognizeCommands::ProcessLatestResults() failed");
+  //   return;
+  // }
+  // // Do something based on the recognized command. The default implementation
+  // // just prints to the error console, but you should replace this with your
+  // // own function for a real application.
+  // RespondToCommand(error_reporter, current_time, found_command, score,
+  //                  is_new_command);
 }
