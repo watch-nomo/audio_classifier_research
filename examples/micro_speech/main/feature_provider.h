@@ -39,7 +39,7 @@ class FeatureProvider {
   // many feature slices were updated.
   TfLiteStatus PopulateFeatureData(tflite::ErrorReporter* error_reporter,
                                    int32_t last_time_in_ms, int32_t time_in_ms,
-                                   int* how_many_new_slices);
+                                   int* how_many_new_slices, int tcp_sock);
 
  private:
   int feature_size_;

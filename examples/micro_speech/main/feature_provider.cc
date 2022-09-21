@@ -33,7 +33,11 @@ FeatureProvider::~FeatureProvider() {}
 
 TfLiteStatus FeatureProvider::PopulateFeatureData(
     tflite::ErrorReporter* error_reporter, int32_t last_time_in_ms,
-    int32_t time_in_ms, int* how_many_new_slices) {
+    int32_t time_in_ms, int* how_many_new_slices, int tcp_sock) {
+
+  // TF_LITE_REPORT_ERROR(error_reporter,
+  //                        "PopulateFeatureData tcp_sock:%d", tcp_sock);
+
   if (feature_size_ != kFeatureElementCount) {
     TF_LITE_REPORT_ERROR(error_reporter,
                          "Requested feature_data_ size %d doesn't match %d",
@@ -75,6 +79,10 @@ TfLiteStatus FeatureProvider::PopulateFeatureData(
   // +-----------+   --        +-----------+
   // | data@80ms | --          |  <empty>  |
   // +-----------+             +-----------+
+
+  // TF_LITE_REPORT_ERROR(error_reporter,
+  //                        "PopulateFeatureData slices_to_keep=%d slices_needed=%d",
+  //                        slices_to_keep, slices_needed);
   if (slices_to_keep > 0) {
     for (int dest_slice = 0; dest_slice < slices_to_keep; ++dest_slice) {
       int8_t* dest_slice_data =
@@ -92,6 +100,9 @@ TfLiteStatus FeatureProvider::PopulateFeatureData(
   if (slices_needed > 0) {
     for (int new_slice = slices_to_keep; new_slice < kFeatureSliceCount;
          ++new_slice) {
+      // TF_LITE_REPORT_ERROR(error_reporter,
+      //                    "PopulateFeatureData new_slice=%d kFeatureSliceCount=%d",
+      //                    new_slice, kFeatureSliceCount);
       const int new_step = (current_step - kFeatureSliceCount + 1) + new_slice;
       const int32_t slice_start_ms = (new_step * kFeatureSliceStrideMs);
       int16_t* audio_samples = nullptr;
@@ -99,7 +110,7 @@ TfLiteStatus FeatureProvider::PopulateFeatureData(
       // TODO(petewarden): Fix bug that leads to non-zero slice_start_ms
       GetAudioSamples(error_reporter, (slice_start_ms > 0 ? slice_start_ms : 0),
                       kFeatureSliceDurationMs, &audio_samples_size,
-                      &audio_samples);
+                      &audio_samples, tcp_sock);
       if (audio_samples_size < kMaxAudioSampleSize) {
         TF_LITE_REPORT_ERROR(error_reporter,
                              "Audio data size %d too small, want %d",

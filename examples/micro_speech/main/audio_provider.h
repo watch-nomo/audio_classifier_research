@@ -31,7 +31,7 @@ limitations under the License.
 // ensure there's a specialized implementation that accesses hardware APIs.
 TfLiteStatus GetAudioSamples(tflite::ErrorReporter* error_reporter,
                              int start_ms, int duration_ms,
-                             int* audio_samples_size, int16_t** audio_samples);
+                             int* audio_samples_size, int16_t** audio_samples, int tcp_sock);
 
 // Returns the time that audio data was last captured in milliseconds. There's
 // no contract about what time zero represents, the accuracy, or the granularity
