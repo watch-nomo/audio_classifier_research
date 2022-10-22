@@ -3,6 +3,21 @@
 - As per TFLite Micro guidelines for vendor support, this repository has the examples needed to use Tensorflow Lite Micro on Espressif Chipsets (e.g., ESP32) using ESP-IDF platform.
 - The base repo on which this is based can be found [here.](https://github.com/tensorflow/tflite-micro)
 
+
+## Nomo Instructions
+  1. Open this project as a Dev Container in VSCode
+  1. Build and flash the firmware in the examples/micro-speech folder
+  1. Run the firmware where you want to test the audio
+  1. Connect your computer to the ESP32_TEST Wifi network. Password is 12345678
+  1. Launch the python script in the utils/com_work folder as
+        ```sh
+        /usr/bin/python3 ./com_test.py 192.168.4.1 ok
+        ```
+
+**Note**: You have to use the correct path to python mentioned above or else it will try to use the IDF installation of python which doesn't have the necessary packages installed.
+
+The device will start recording audio and running the classifers. The recorded audio and log file will be saved to the same directory as the python script.
+
 ## Build Status
 
 |   Build Type  |  Status    |
