@@ -1,0 +1,5 @@
+numpy
+soundfile
+pyaudio
+opencv-python
+tensorflow

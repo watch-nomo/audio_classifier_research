@@ -1,0 +1,17 @@
+diff --git a/components/protocomm/src/transports/protocomm_nimble.c b/components/protocomm/src/transports/protocomm_nimble.c
+index 6bac49df39..ce4e59de7e 100644
+--- a/components/protocomm/src/transports/protocomm_nimble.c
++++ b/components/protocomm/src/transports/protocomm_nimble.c
+@@ -636,9 +636,9 @@ ble_gatt_add_characteristics(struct ble_gatt_chr_def *characteristics, int idx)
+     memcpy(&temp_uuid128_name.value[12], &protoble_internal->g_nu_lookup[idx].uuid, 2);
+ 
+     (characteristics + idx)->flags = BLE_GATT_CHR_F_READ |
+-                                     BLE_GATT_CHR_F_WRITE |
+-                                     BLE_GATT_CHR_F_READ_ENC |
+-                                     BLE_GATT_CHR_F_WRITE_ENC;
++                                     BLE_GATT_CHR_F_WRITE ;
++                                     //BLE_GATT_CHR_F_READ_ENC |
++                                     //BLE_GATT_CHR_F_WRITE_ENC;
+     (characteristics + idx)->access_cb = gatt_svr_chr_access;
+ 
+     /* Out of 128 bit UUID, 16 bits from g_nu_lookup table. Currently

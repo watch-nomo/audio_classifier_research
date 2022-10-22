@@ -1,0 +1,26 @@
+{
+	"name": "Nomo Audio Classifier Research",
+	"build": {
+		"dockerfile": "Dockerfile"
+	},
+	// Pre-configure ESP-IDF extension
+	"settings": {
+		"terminal.integrated.shell.linux": "/bin/bash",
+	},
+	// Install relevant extensions in the dev container
+	"extensions": [
+		"twxs.cmake",
+		"ms-vscode.cpptools",
+		"webfreak.debug"
+	],
+	"userEnvProbe": "loginInteractiveShell",
+	// Forward serial device to enable flash & monitor
+	"runArgs": [
+		"--device=/dev/ttyUSB0",
+        "--volume=/tmp/.X11-unix:/tmp/.X11-unix"
+	],
+    "remoteEnv": {
+        "DISPLAY": ":0"
+    },
+	"remoteUser": "nomo"
+}
